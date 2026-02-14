@@ -2,36 +2,56 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Environment, OrbitControls } from '@react-three/drei'
+import { Environment, Html, OrbitControls } from '@react-three/drei'
 import { Model } from './flower'
 
 function lerp(start: number, end: number, t: number) {
   return start + (end - start) * t
 }
 
-function FlowerScene({ progress }: { progress: number }) {
+function ModelLoader() {
+  return (
+    <Html center>
+      <div className="rounded-full border border-[#1e1347]/20 bg-white/80 px-4 py-2 text-sm font-medium text-[#1e1347] backdrop-blur-sm">
+        Loading model...
+      </div>
+    </Html>
+  )
+}
+
+function FlowerScene({ progress, isMobile }: { progress: number; isMobile: boolean }) {
   const clampedProgress = Math.min(1, Math.max(0, progress))
   const easedProgress = 1 - (1 - clampedProgress) * (1 - clampedProgress)
 
-  const modelScale = lerp(2.1, 3.35, easedProgress)
-  const modelPosY = lerp(-2.5, -1.2, easedProgress)
-  const modelPosX = lerp(0, 0.2, easedProgress)
+  const modelScale = isMobile
+    ? lerp(1.7, 2.25, easedProgress)
+    : lerp(2.1, 3.35, easedProgress)
+  const modelPosY = isMobile
+    ? lerp(-2.3, -1.45, easedProgress)
+    : lerp(-2.5, -1.2, easedProgress)
+  const modelPosX = isMobile ? lerp(-0.08, 0.08, easedProgress) : lerp(0, 0.2, easedProgress)
   const modelRotX = lerp(0.1, 0.03, easedProgress)
-  const modelRotY = lerp(-0.24, -0.08, easedProgress)
+  const modelRotY = isMobile
+    ? lerp(-0.2, -0.06, easedProgress)
+    : lerp(-0.24, -0.08, easedProgress)
 
   return (
-    <Canvas camera={{ position: [0, 1.35, 11], fov: 24 }}>
+    <Canvas
+      dpr={[1, 1.5]}
+      gl={{ antialias: false, powerPreference: 'high-performance' }}
+      camera={{ position: [0, 1.35, isMobile ? 12 : 11], fov: isMobile ? 28 : 24 }}
+    >
       <color attach="background" args={['#e9e2dc']} />
       <ambientLight intensity={0.8} />
       <directionalLight position={[3, 5, 4]} intensity={1.4} />
-      <Suspense fallback={null}>
+      <Suspense fallback={<ModelLoader />}>
         <Model
           progress={progress}
           position={[modelPosX, modelPosY, 0]}
           rotation={[modelRotX, modelRotY, 0.06]}
           scale={modelScale}
         />
-        <Environment preset="studio" />
+        <Environment preset="studio" resolution={64} />
       </Suspense>
       <OrbitControls enablePan={false} enableZoom={false} enableRotate={false} />
     </Canvas>
@@ -41,6 +61,19 @@ function FlowerScene({ progress }: { progress: number }) {
 export default function FlowerScrollSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [progress, setProgress] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)')
+    const updateIsMobile = () => setIsMobile(mediaQuery.matches)
+
+    updateIsMobile()
+    mediaQuery.addEventListener('change', updateIsMobile)
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateIsMobile)
+    }
+  }, [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -69,11 +102,11 @@ export default function FlowerScrollSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative min-h-[300vh] bg-[#e9e2dc]">
+    <section ref={sectionRef} className="relative min-h-[240vh] bg-[#e9e2dc] sm:min-h-[300vh]">
       <div className="sticky top-0 h-screen w-full">
-        <FlowerScene progress={progress} />
-        <div className="pointer-events-none absolute inset-x-0 top-[64%] z-10 -translate-y-1/2 px-4 text-center text-[#1e1347] sm:px-8">
-          <h1 className="text-[clamp(3.25rem,12.5vw,11.5rem)] font-semibold leading-none tracking-tight">
+        <FlowerScene progress={progress} isMobile={isMobile} />
+        <div className="pointer-events-none absolute inset-x-0 top-[68%] z-10 -translate-y-1/2 px-4 text-center text-[#1e1347] sm:top-[64%] sm:px-8">
+          <h1 className="text-[clamp(2.4rem,14vw,11.5rem)] font-semibold leading-none tracking-tight">
             CPC Empower
           </h1>
         </div>

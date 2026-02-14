@@ -75,8 +75,6 @@ export function Model({ progress = 0, ...props }: ModelProps) {
         <group name="Baked_Animation">
           <mesh
             name="Baked_Animation001"
-            castShadow
-            receiveShadow
             geometry={nodes.Baked_Animation001.geometry}
             material={materials['Material_002.006']}
             morphTargetDictionary={nodes.Baked_Animation001.morphTargetDictionary}
@@ -84,8 +82,6 @@ export function Model({ progress = 0, ...props }: ModelProps) {
           />
           <mesh
             name="Baked_Animation001_1"
-            castShadow
-            receiveShadow
             geometry={nodes.Baked_Animation001_1.geometry}
             material={materials['Bud.007']}
             morphTargetDictionary={nodes.Baked_Animation001_1.morphTargetDictionary}
@@ -93,8 +89,6 @@ export function Model({ progress = 0, ...props }: ModelProps) {
           />
           <mesh
             name="Baked_Animation001_2"
-            castShadow
-            receiveShadow
             geometry={nodes.Baked_Animation001_2.geometry}
             material={materials['Material_001.006']}
             morphTargetDictionary={nodes.Baked_Animation001_2.morphTargetDictionary}
@@ -102,8 +96,6 @@ export function Model({ progress = 0, ...props }: ModelProps) {
           />
           <mesh
             name="Baked_Animation001_3"
-            castShadow
-            receiveShadow
             geometry={nodes.Baked_Animation001_3.geometry}
             material={materials['PEtal.003']}
             morphTargetDictionary={nodes.Baked_Animation001_3.morphTargetDictionary}
