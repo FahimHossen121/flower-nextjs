@@ -27,18 +27,18 @@ function FlowerScene({ progress, isMobile }: { progress: number; isMobile: boole
     ? lerp(1.7, 2.25, easedProgress)
     : lerp(2.1, 3.35, easedProgress)
   const modelPosY = isMobile
-    ? lerp(-2.3, -1.45, easedProgress)
-    : lerp(-2.5, -1.2, easedProgress)
-  const modelPosX = isMobile ? lerp(-0.08, 0.08, easedProgress) : lerp(0, 0.2, easedProgress)
-  const modelRotX = lerp(0.1, 0.03, easedProgress)
+    ? lerp(-1.3, -0.5, easedProgress)
+    : lerp(-1.5, -0.6, easedProgress)
+  const modelPosX = isMobile ? lerp(0.08, -0.08, easedProgress) : lerp(0, -0.2, easedProgress)
+  const modelRotX = lerp(0.5, 0.3, easedProgress)
   const modelRotY = isMobile
-    ? lerp(-0.2, -0.06, easedProgress)
-    : lerp(-0.24, -0.08, easedProgress)
+    ? lerp(-0.28, -0.08, easedProgress)
+    : lerp(-0.3, -0.1, easedProgress)
 
   return (
     <Canvas
       dpr={[1, 1.5]}
-      gl={{ antialias: false, powerPreference: 'high-performance' }}
+      gl={{ antialias: true, powerPreference: 'high-performance' }}
       camera={{ position: [0, 1.35, isMobile ? 12 : 11], fov: isMobile ? 28 : 24 }}
     >
       <color attach="background" args={['#e9e2dc']} />
@@ -48,10 +48,10 @@ function FlowerScene({ progress, isMobile }: { progress: number; isMobile: boole
         <Model
           progress={progress}
           position={[modelPosX, modelPosY, 0]}
-          rotation={[modelRotX, modelRotY, 0.06]}
+          rotation={[modelRotX, modelRotY, -0.3]}
           scale={modelScale}
         />
-        <Environment preset="studio" resolution={64} />
+        <Environment preset="studio" resolution={128} />
       </Suspense>
       <OrbitControls enablePan={false} enableZoom={false} enableRotate={false} />
     </Canvas>
@@ -105,7 +105,7 @@ export default function FlowerScrollSection() {
     <section ref={sectionRef} className="relative min-h-[240vh] bg-[#e9e2dc] sm:min-h-[300vh]">
       <div className="sticky top-0 h-screen w-full">
         <FlowerScene progress={progress} isMobile={isMobile} />
-        <div className="pointer-events-none absolute inset-x-0 top-[68%] z-10 -translate-y-1/2 px-4 text-center text-[#1e1347] sm:top-[64%] sm:px-8">
+        <div className="pointer-events-none absolute inset-x-0 top-[72%] z-10 -translate-y-1/2 px-4 text-center text-[#1e1347] sm:top-[68%] sm:px-8">
           <h1 className="text-[clamp(2.4rem,14vw,11.5rem)] font-semibold leading-none tracking-tight">
             CPC Empower
           </h1>
