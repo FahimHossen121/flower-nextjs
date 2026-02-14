@@ -32,7 +32,7 @@ export function Model({ progress = 0, ...props }: ModelProps) {
   const group = useRef<Group>(null)
   const mixerRef = useRef<AnimationMixer | null>(null)
   const actionRef = useRef<AnimationAction | null>(null)
-  const { nodes, materials, animations } = useGLTF('/models/flower.glb') as FlowerGLTF
+  const { nodes, materials, animations } = useGLTF('/models/flower.glb') as unknown as FlowerGLTF
 
   useEffect(() => {
     const currentGroup = group.current
