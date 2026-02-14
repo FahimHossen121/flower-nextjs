@@ -42,8 +42,10 @@ function FlowerScene({ progress, isMobile }: { progress: number; isMobile: boole
       camera={{ position: [0, 1.35, isMobile ? 12 : 11], fov: isMobile ? 28 : 24 }}
     >
       <color attach="background" args={['#e9e2dc']} />
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[3, 5, 4]} intensity={1.4} />
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[3, 5, 4]} intensity={2.5} castShadow />
+      <pointLight position={[0, 2, 8]} intensity={1.5} />
+      <spotLight position={[0, 5, 10]} angle={0.3} penumbra={1} intensity={2} castShadow />
       <Suspense fallback={<ModelLoader />}>
         <Model
           progress={progress}
