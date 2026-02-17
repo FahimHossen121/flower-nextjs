@@ -39,6 +39,9 @@ function FlowerScene({ progress, isMobile }: { progress: number; isMobile: boole
     <Canvas
       dpr={[1, 1.5]}
       gl={{ antialias: true, powerPreference: 'high-performance', alpha: true }} // alpha: true for transparency
+      onCreated={({ gl }) => {
+        gl.setClearColor(0x000000, 0)
+      }}
       camera={{ position: [0, 1.35, isMobile ? 12 : 11], fov: isMobile ? 28 : 24 }}
     >
       {/* Removed background color for transparency */}
